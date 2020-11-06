@@ -33,10 +33,10 @@ const Body = BaseForm.extend(
       const sendText = ( this.model.get('primaryMode') === 'sms' )
         ? loc('oie.phone.verify.sms.sendText', 'login')
         : loc('oie.phone.verify.call.sendText', 'login');
+      const strongClass = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login') ? 'strong' : '';
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${sendText}
-        <div><span class="strong">${this.model.escape('phoneNumber')}</span></div>
-        </div>`);
+        <span class='${strongClass}'>${this.model.escape('phoneNumber')}</span></div>`);
     },
 
     getUISchema () {
@@ -82,7 +82,7 @@ export default BaseAuthenticatorView.extend({
         'type': 'string',
       },
       phoneNumber: {
-        'value': profile.phoneNumber,
+        'value': profile?.phoneNumber ? profile.phoneNumber : loc('oie.phone.alternate.title', 'login'),
         'type': 'string',
       },
     }, ModelClass.prototype.local);
